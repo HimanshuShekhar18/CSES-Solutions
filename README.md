@@ -1,7 +1,7 @@
 # CSES-Solutions
 My CSES Complete Problem-Set Solutions https://cses.fi/problemset
 
-# Table Contents
+### Table Contents
 
 • Introductory Problems
 
