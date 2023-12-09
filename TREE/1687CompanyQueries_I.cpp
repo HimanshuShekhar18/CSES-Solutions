@@ -98,3 +98,120 @@ ios_base::sync_with_stdio(0);
        return 0;
 }
 
+
+
+
+// <----------------------------------------------------------------------APPROACH-2------------------------------------------------------------------------------------------------->
+
+
+
+
+
+// हर हर महादेव
+// जय महाकाल जय महाकाल जय महाकाल जय महाकाल
+/* Author :- Himanshu Shekhar , IIIT Bhagalpur */
+
+#include <bits/stdc++.h>
+using namespace std;
+const int MOD = 1e9 + 7;
+const long long INF = 1e15;
+const int MAX_N = 200 * 1000 + 13;
+
+# define ll long long
+
+// APPROACH-2
+
+ll a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,sum,cnt,ans,maxi;
+bool flag;
+string str;
+
+int jump;
+vector<int> par;
+int dp[MAX_N][31];  // par[i][j] = 2^(j)th parent of ith node
+
+// preprocessing part  Dynamic Part TC: O(n*log(n))
+void build(){
+
+    for(int i = 1; i<=n; i++) dp[i][0] = par[i];
+    for(int j = 1; j<=jump; j++){
+        for(int i = 1; i<=n; i++){
+        if(dp[i][j-1]==-1){
+            dp[i][j]=-1;
+        }
+        else{
+            dp[i][j]=dp[dp[i][j-1]][j-1];
+        }        
+    }
+  }
+}
+
+// k-->jump-->binary representation
+
+// TC: O(log(k))
+int binarylifting(int node, int k ){
+    // higher jumps pehle then lower jumps
+    for(int j = jump; j>=0; j--){
+        if((1<<j)&k){ //jth bit set or not in k..
+            node = dp[node][j]; //jump of 2^j
+            k-=(1<<j);
+            if(node==-1) return -1; 
+            // agar -1 agaya to or jump ki no requirement, wahi se return ho jao 
+        }
+    }
+    return node;
+}
+
+void solve(){
+    
+    cin>> n >> q;
+
+    par.resize(n+1);
+
+    par[1] = -1;
+
+    // constructing the tree
+    for(ll i=2;i<=n;i++){
+ 
+    cin >> par[i];
+    
+    }
+
+    // don't forget to take log to the base 2
+    jump=log2(n)+1; //max possible jump req to reach a parent (You can also take x=30)
+
+    fill_n(&dp[0][0], MAX_N*31, -1);
+
+    build();    
+    
+    // q*log(k)
+    while(q--){
+        cin>>x>>k;
+        cout << binarylifting(x,k) << endl;
+    }
+
+       fflush(stdout);
+       cout << flush;
+}
+
+int main() {
+
+    #ifndef ONLINE_JUDGE
+//for getting input from input.txt
+freopen("input1.txt", "r", stdin);
+//for writing output to output.txt
+freopen("output.txt", "w", stdout);
+#endif
+
+ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(NULL);
+
+     solve();
+       return 0;
+}
+
+
+
+
+
+
