@@ -114,7 +114,7 @@ ios_base::sync_with_stdio(0);
 // जय महाकाल जय महाकाल जय महाकाल जय महाकाल
 /* Author :- Himanshu Shekhar , IIIT Bhagalpur */
  
-// <---------------------------------------------------------------------TOPOLOGICAL SORTING------------------------------------------------------------------------->
+// <------------------------------------------------------------------------------TOPOLOGICAL SORTING--------------------------------------------------------------------------------->
  
  
 #include <bits/stdc++.h>
@@ -193,7 +193,8 @@ while(!q.empty()){
         }
     }
 }
-        memset(parent,-1,sizeof(parent));
+        
+memset(parent,-1,sizeof(parent));
  
 q.push(1);
  
@@ -251,3 +252,131 @@ ios_base::sync_with_stdio(0);
  
        return 0;
 }
+
+
+
+// <-----------------------------------------------------------------------DYNAMIC PROGRAMMING+DFS-------------------------------------------------------------------------------------->
+
+
+// हर हर महादेव
+// जय महाकाल जय महाकाल जय महाकाल जय महाकाल
+/* Author :- Himanshu Shekhar , IIIT Bhagalpur */
+
+#include <bits/stdc++.h>
+using namespace std;
+const int MOD = 1e9 + 7;
+const long long INF = 1e15;
+const int MAX_N = 200 * 1000 + 13;
+
+# define ll long long
+
+vector<vector<ll>> graph(MAX_N); // adjacency list of tree
+
+
+ll a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,sum,cnt,ans,maxi;
+bool flag;
+string str;
+
+
+int dp[MAX_N];  // par[i][j] = 2^(j)th parent of ith node
+vector<int> next_element;
+int vis[MAX_N];
+
+// preprocessing part  Dynamic Part TC: O(n*log(n))
+void dfs(int source, int parent){
+
+    vis[source]=1;
+
+    // agar "n" ke aage koi vertex to usse explore karne ki jarorat nahi hain
+    if(source==n) return;
+    
+    for(auto it: graph[source]){
+
+            // if already explored 
+            if(!vis[it]) dfs(it,source);
+
+            // sirf wahi path dekhna jo "n" ko jaye
+            if(dp[it]!=-1 && dp[source]<dp[it]+1)
+            {
+                dp[source]=dp[it]+1;
+                next_element[source]=it;
+            }
+    }
+}
+
+
+void solve(){
+    
+    cin>> n >> m;
+
+    // constructing the tree
+    for(ll i=1;i<=m;i++){
+    cin >> u >> v;
+    graph[u].push_back(v); 
+    }
+
+    next_element.resize(n+1,-1);
+
+    memset(dp,-1,sizeof(dp));
+
+    dp[n]=1;    // sirf "n" wala path hi explore karna hain or koi nahi 
+
+    dfs(1,-1);
+
+    vector<int> path;
+
+    path.push_back(1);
+
+    int element = 1;
+
+    for(int i = 0; i<dp[1]-1; i++){
+        element=next_element[element];
+        path.push_back(element);
+    }
+
+    if(find(path.begin(),path.end(),n)==path.end()) {
+        cout << "IMPOSSIBLE" << endl;
+        return;
+    }
+
+    cout << dp[1] << endl;
+
+    for(auto it: path){
+        cout << it << " ";
+    }
+
+       fflush(stdout);
+       cout << flush;
+}
+
+int main() {
+
+    #ifndef ONLINE_JUDGE
+//for getting input from input.txt
+freopen("input1.txt", "r", stdin);
+//for writing output to output.txt
+freopen("output.txt", "w", stdout);
+#endif
+
+ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(NULL);
+
+     solve();
+       return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
