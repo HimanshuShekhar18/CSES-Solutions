@@ -366,11 +366,245 @@ ios_base::sync_with_stdio(0);
        return 0;
 }
 
+// <--------------------------------------SSLP TO SSSP NEGATIVE MONOTONIC DIJKSTRA'S------------------------------------------------------------>
+// <------------------------------------------------TIME LIMIT EXCEEDED-------------------------------------------------------------------------------->
+// <-----------------------------------------------USING PRIORITY QUEUE--------------------------------------------------------------------------------->
 
 
+// हर हर महादेव
+// जय महाकाल जय महाकाल जय महाकाल जय महाकाल
+/* Author :- Himanshu Shekhar , IIIT Bhagalpur */
+ 
+#include <bits/stdc++.h>
+using namespace std;
+const int MOD = 1e9 + 7;
+const long long INF = 1e15;
+const int MAX_N = 200 * 1000 + 13;
+ 
+# define ll long long
+ 
+// <----------------------------------------------SSLP TO SSSP NEGATIVE MONOTONIC DIJKSTRA'S------------------------------------------------------------------>
+ 
+ 
+vector<pair<int,int>> graph[MAX_N];
+ 
+ 
+ll a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,sum,cnt,ans,maxi;
+bool flag;
+string str;
+ 
+ 
+int dp[MAX_N];  
+int parent[MAX_N];
+ 
+ 
+void solve(){
+    
+    cin>> n >> m;
+ 
+    // constructing the tree
+    for(ll i=1;i<=m;i++){
+    cin >> u >> v;
+    graph[u].push_back({v,-1});      // replacing each edge weight with "-1" thus converting problem from SSLP to SSSP
+    }
+ 
+   
+ 
+    memset(dp,0,sizeof(dp));
+    memset(parent,-1,sizeof(parent));
+ 
+    
+ 
+    priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+ 
+    pq.push({0,1});
+    while(!pq.empty()){
+        int vertex = (pq.top()).second;
+        int dist = (pq.top()).first;
+ 
+        pq.pop();
+ 
+        if(dp[vertex]<dist) continue;   // check for repetitive checking avoids TLE
+ 
+        for(auto it: graph[vertex]){
+            int node = it.first;
+            int weight = it.second;
+            if(dp[node]>dp[vertex]+weight){
+                dp[node]=dp[vertex]+weight;
+                parent[node]=vertex;
+                pq.push({dp[node],node});
+            }
+        }
+    }
+ 
+ 
+    // if "n" not get visited
+    if(dp[n]==0) {
+        cout << "IMPOSSIBLE" << endl;
+        return;
+    }
+ 
+ 
+    cout << -dp[n]+1 << endl;
+ 
+    vector<int> next_element;
+ 
+    next_element.push_back(n);
+ 
+    int element = n;
+ 
+    while(parent[element]!=-1){
+        element=parent[element];
+        next_element.push_back(element);
+    }
+ 
+    reverse(next_element.begin(),next_element.end());
+ 
+ 
+    for(auto it: next_element){
+        cout << it << " ";
+    }
+ 
+       fflush(stdout);
+       cout << flush;
+}
+ 
+int main() {
+ 
+    #ifndef ONLINE_JUDGE
+//for getting input from input.txt
+freopen("input1.txt", "r", stdin);
+//for writing output to output.txt
+freopen("output.txt", "w", stdout);
+#endif
+ 
+ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(NULL);
+ 
+     solve();
+       return 0;
+}
+
+// <----------------------------------------------SSLP TO SSSP NEGATIVE MONOTONIC DIJKSTRA'S------------------------------------------------------------------>
+// <----------------------------------------------------------------------- USING SET ------------------------------------------------------------------------------>
+// <---------------------------------------------------------------TIME LIMIT EXCEEDED-------------------------------------------------------------------------------------------->
+
+// हर हर महादेव
+// जय महाकाल जय महाकाल जय महाकाल जय महाकाल
+/* Author :- Himanshu Shekhar , IIIT Bhagalpur */
+
+#include <bits/stdc++.h>
+using namespace std;
+const int MOD = 1e9 + 7;
+const long long INF = 1e15;
+const int MAX_N = 200 * 1000 + 13;
+
+# define ll long long
+
+// <----------------------------------------------SSLP TO SSSP NEGATIVE MONOTONIC DIJKSTRA'S------------------------------------------------------------------>
 
 
+vector<pair<int,int>> graph[MAX_N];
 
+
+ll a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,sum,cnt,ans,maxi;
+bool flag;
+string str;
+
+
+int dp[MAX_N];  
+int parent[MAX_N];
+
+
+void solve(){
+    
+    cin>> n >> m;
+
+    // constructing the tree
+    for(ll i=1;i<=m;i++){
+    cin >> u >> v;
+    graph[u].push_back({v,-1});      // replacing each edge weight with "-1" thus converting problem from SSLP to SSSP
+    }
+
+   
+
+    memset(dp,0,sizeof(dp));
+    memset(parent,-1,sizeof(parent));
+
+    long long vis[MAX_N] = {0};
+
+    set<pair<int,int>> st;
+
+    st.insert({0,1});
+    while(!st.empty()){
+        int vertex = (*st.begin()).second;
+        int dist = (*st.begin()).first;
+
+        st.erase(st.begin());
+
+        if(dp[vertex]<dist) continue;
+
+        for(auto it: graph[vertex]){
+            int node = it.first;
+            int weight = it.second;
+            if(dp[node]>dp[vertex]+weight){
+                if(st.find({dp[node],node})!=st.end()) st.erase({dp[node],node});
+                dp[node]=dp[vertex]+weight;
+                parent[node]=vertex;
+                st.insert({dp[node],node});
+            }
+        }
+    }
+
+
+    // if "n" not get visited
+    if(dp[n]==0) {
+        cout << "IMPOSSIBLE" << endl;
+        return;
+    }
+
+
+    cout << -dp[n]+1 << endl;
+
+    vector<int> next_element;
+
+    next_element.push_back(n);
+
+    int element = n;
+
+    while(parent[element]!=-1){
+        element=parent[element];
+        next_element.push_back(element);
+    }
+
+    reverse(next_element.begin(),next_element.end());
+
+
+    for(auto it: next_element){
+        cout << it << " ";
+    }
+
+       fflush(stdout);
+       cout << flush;
+}
+
+int main() {
+
+    #ifndef ONLINE_JUDGE
+//for getting input from input.txt
+freopen("input1.txt", "r", stdin);
+//for writing output to output.txt
+freopen("output.txt", "w", stdout);
+#endif
+
+ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(NULL);
+
+     solve();
+       return 0;
+}
 
 
 
